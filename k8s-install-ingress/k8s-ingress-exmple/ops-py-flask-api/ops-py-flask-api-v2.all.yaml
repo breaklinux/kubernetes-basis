@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: devops-python
+  name: ops-py-flask-api-v2
+spec:
+  selector:
+    matchLabels:
+      app: ops-py-flask-api-v2
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ops-py-flask-api-v2
+    spec:
+      containers:
+      - name: ops-py-flask-api-v2
+        image: harbor.xiaolige.site/k8s/ops-py-flask-api:v2
+        ports:
+        - containerPort: 6000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: devops-python
+  name: ops-py-flask-api-v2
+spec:
+  selector:
+    app: ops-py-flask-api-v2 
+  ports:
+  - name: ops-py-flask-api-v2
+    protocol: TCP
+    port: 6000
+    targetPort: 6000

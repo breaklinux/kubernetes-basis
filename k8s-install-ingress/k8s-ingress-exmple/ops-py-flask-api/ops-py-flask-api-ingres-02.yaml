@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: devops-python 
+  name: ops-flask-api
+spec:
+  rules:
+  # 配置访问域名
+  - host: ops-flask-api.xiaolige.site
+    http:
+      paths:
+      # 配置flask api v1 Path
+      - path: /devops/api/v1
+        backend:
+          serviceName: ops-py-flask-api-v1 
+          servicePort: 5000
+
+  - host: ops-flask-ui.xiaolige.site
+    http:
+      paths:
+      # 配置flask api v2 Path
+      - path: /devops/api/v2
+        backend:
+          serviceName: ops-py-flask-api-v2
+          servicePort: 6000
+

@@ -1,0 +1,52 @@
+#apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: devops-python 
+  name: ops-flask-api-https
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_method = 'OPTIONS') {
+        add_header 'Access-Control-Allow-Origin' "$http_origin";
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Methods' 'GET, PUT, POST, DELETE, PATCH, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Forwarded-For';
+        add_header 'Access-Control-Max-Age' 1728000;
+        add_header 'Content-Type' 'text/plain charset=UTF-8';
+        add_header 'Content-Length' 0;
+        return 204;
+      }
+      add_header Access-Control-Allow-Origin $http_origin always;
+      add_header Access-Control-Allow-Methods "GET, PUT, POST, DELETE, PATCH, OPTIONS" always;
+      add_header Access-Control-Allow-Credentials true always;
+      add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Forwarded-For" always;
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-body-size: "10240m" #上传文件大小限制，默认是1M
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "36000" #连接超时时间
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "36000" #文件最大读时间
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "36000" #文件最大写时间
+    nginx.ingress.kubernetes.io/ssl-redirect: "true" #是否强制跳转到https
+
+spec:
+  tls:
+     - hosts:
+       secretName: letsencrypt-xiaolige-site 
+  rules:
+  # 配置访问域名
+  - host: ops-flask-api.xiaolige.site
+    http:
+      paths:
+      # 配置flask api v1 Path
+      - path: /devops/api/v1
+        backend:
+          serviceName: ops-py-flask-api-v1 
+          servicePort: 5000
+
+  - host: ops-flask-ui.xiaolige.site
+    http:
+      paths:
+      #配置flask api v2 Path
+      - path: /devops/api/v2
+        backend:
+          serviceName: ops-py-flask-api-v2
+          servicePort: 6000
