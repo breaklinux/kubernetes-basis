@@ -1,6 +1,6 @@
 #!/bin/bash
 function etcdDataBak(){
-BACUPDIR="/chj/data/backup/etcd"
+BACUPDIR="/data/backup/etcd"
 if [ ! -d "$BACUPDIR" ]; then
     echo "making dir $BACUPDIR"
     mkdir -p $BACUPDIR
@@ -20,8 +20,8 @@ else
    echo "xagrs There is no"
    exit 0
 fi
-certDir="/chj/data/backup/etcd/ssl/$env"
-ENVBACUPDIR="/chj/data/backup/etcd/$env"
+certDir="/data/backup/etcd/ssl/$env"
+ENVBACUPDIR="/data/backup/etcd/$env"
 if [ ! -d "$ENVBACUPDIR" ]
 then
   mkdir -p $ENVBACUPDIR
