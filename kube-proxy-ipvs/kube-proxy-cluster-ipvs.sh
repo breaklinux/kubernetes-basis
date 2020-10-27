@@ -25,7 +25,7 @@ lsmod |grep ip_vs
 }
 
 rollout_restart_kube_proxy(){
-#注意该功能k8s 1.15版本以后才支持,低版本不支持
+
 kubectl rollout restart daemonset kube-proxy -n kube-system
 
 }
