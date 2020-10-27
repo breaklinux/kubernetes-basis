@@ -2,11 +2,11 @@
 
 | 主机IP规划	 | 主机名规划	 | 用途 
 | ------ | ------ |------ |
-| 192.168.54.12	 | ansible-matser	 |ansible运维控制机
-| 192.168.58.114 | k8s-master-1-58.114    |k8s-master01 控制节点-1 
-| 192.168.58.117 | k8s-master-2-58.117	 |k8s-master01 控制节点-2
-| 192.168.58.116 | k8s-master-3-58.116	 |k8s-master01 控制节点-3
-| 192.168.58.119 | k8s-node-1-58.119     |k8s-node01 工作节点-1   
+| 192.168.1.12	 | ansible-matser	 |ansible运维控制机
+| 192.168.2.114 | k8s-master-1-58.114    |k8s-master01 控制节点-1 
+| 192.168.3.117 | k8s-master-2-58.117	 |k8s-master01 控制节点-2
+| 192.168.4.116 | k8s-master-3-58.116	 |k8s-master01 控制节点-3
+| 192.168.5.119 | k8s-node-1-58.119     |k8s-node01 工作节点-1   
 
 
 | 主机IP规划	 | 主机名规划	 | 角色  | 用途 
@@ -25,10 +25,10 @@
 ```
 cat k8s-init-inventory.txt
 [k8s-dev]
- 192.168.58.114 host_name=k8s-master-1-58.114  sshkey_role=ras 
- 192.168.58.117 host_name=k8s-master-2-58.117  sshkey_role=pub 
- 192.168.58.116 host_name=k8s-master-3-58.116  sshkey_role=pub 
- 192.168.58.119 host_name=k8s-node-1-58.119   sshkey_role=pub 
+ 192.168.1.114 host_name=k8s-master-1-58.114  sshkey_role=ras 
+ 192.168.2.117 host_name=k8s-master-2-58.117  sshkey_role=pub 
+ 192.168.3.116 host_name=k8s-master-3-58.116  sshkey_role=pub 
+ 192.168.4.119 host_name=k8s-node-1-58.119   sshkey_role=pub 
 ```
 
 **3.编写初始化主机名称playbook**
@@ -61,7 +61,7 @@ cat k8s-init-inventory.txt
           msg: "下载ssh私钥文件"
       when: sshkey_role == "ras"
     - name: 获取私钥文件和下载系统初始化脚本
-      shell: curl http://ops.chehejia.com:9090/scripts/k8s/add_k8s_ras.sh|sh &&  wget -P /tmp/ http://k8s-public.pkg.chj.cloud/admin/init_kubernetes/k8s-init-system.sh && wget -P /tmp/ http://k8s-public.pkg.chj.cloud/admin/init_kubernetes/k8s-install.sh
+      shell: curl http://ops.com:9090/scripts/k8s/add_k8s_ras.sh|sh &&  wget -P /tmp/ http://k8s.com/admin/init_kubernetes/k8s-init-system.sh && wget -P /tmp/ http://k8s.com/admin/init_kubernetes/k8s-install.sh
       register: get_k8s_master_init_script
       ignore_errors: True
 
@@ -70,7 +70,7 @@ cat k8s-init-inventory.txt
           msg: "下载公钥文件"
       when: sshkey_role == "pub"
     - name: 获取公钥文件,下载系统初始化脚本和k8s安装脚本
-      shell: curl http://ops.chehejia.com:9090/scripts/k8s/add_pub.k8s.sh|sh && wget -P /tmp/ http://k8s-public.pkg.chj.cloud/admin/init_kubernetes/k8s-init-system.sh
+      shell: curl http://ops.com:9090/scripts/k8s/add_pub.k8s.sh|sh && wget -P /tmp/ http://k8s.com/admin/init_kubernetes/k8s-init-system.sh
       register: get_k8s_node_init_script
       ignore_errors: True
 
@@ -105,19 +105,19 @@ cat k8s-init-inventory.txt
 
 ```
 [ops@ansible-master tmp]$ ansible -i k8s-init-inventory.txt k8s-dev -m ping 
-192.168.58.116 | SUCCESS => {
+192.168.1.116 | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
-192.168.58.117 | SUCCESS => {
+192.168.2.117 | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
-192.168.58.114 | SUCCESS => {
+192.168.3.114 | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
-192.168.58.119 | SUCCESS => {
+192.168.4.119 | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
@@ -136,77 +136,77 @@ playbook: k8s_init.yam
 [ops@ansible-master tmp]$ ansible-playbook  -i k8s-init-inventory.txt k8s_init.yam -b 
 PLAY [k8s-dev] *************************************************************************
 
-ok: [192.168.58.117]
-ok: [192.168.58.114]
-ok: [192.168.58.116]
-ok: [192.168.58.119]
+ok: [192.168.1.117]
+ok: [192.168.2.114]
+ok: [192.168.3.116]
+ok: [192.168.4.119]
 
 TASK [规划主机名] **********************************************************************
-ok: [192.168.58.117]
-ok: [192.168.58.119]
-ok: [192.168.58.114]
-ok: [192.168.58.116]
+ok: [192.168.1.117]
+ok: [192.168.2.119]
+ok: [192.168.3.114]
+ok: [192.168.4.116]
 
 TASK [新增hosts解析信息] ****************************************************************************************
-ok: [192.168.58.117]
-ok: [192.168.58.119]
-ok: [192.168.58.114]
-ok: [192.168.58.116]
+ok: [192.168.1.117]
+ok: [192.168.2.119]
+ok: [192.168.3.114]
+ok: [192.168.4.116]
 
 TASK [设置允许root 用户ssh-key登陆] ****************************************************************************************
-changed: [192.168.58.117]
-changed: [192.168.58.119]
-changed: [192.168.58.114]
-changed: [192.168.58.116]
+changed: [192.168.1.117]
+changed: [192.168.2.119]
+changed: [192.168.3.114]
+changed: [192.168.4.116]
 
 TASK [ssh连接是否需要yes配置] ***************************************************************************************
-changed: [192.168.58.114]
-changed: [192.168.58.117]
-changed: [192.168.58.116]
-changed: [192.168.58.119]
+changed: [192.168.1.114]
+changed: [192.168.2.117]
+changed: [192.168.3.116]
+changed: [192.168.5.119]
 
 TASK [加载生效ssh服务配置] ****************************************************************************************
-changed: [192.168.58.119]
-changed: [192.168.58.117]
-changed: [192.168.58.114]
-changed: [192.168.58.116]
+changed: [192.168.1.119]
+changed: [192.168.1.117]
+changed: [192.168.3.114]
+changed: [192.168.4.116]
 
 TASK [debug] ***************************************************************************
-skipping: [192.168.58.117]
-skipping: [192.168.58.116]
-ok: [192.168.58.114] => {
+skipping: [192.168.1.117]
+skipping: [192.168.2.116]
+ok: [192.168.3.114] => {
     "msg": "下载ssh私钥文件"
 }
-skipping: [192.168.58.119]
+skipping: [192.168.1.119]
 TASK [获取私钥文件] *****************************************************************************************************************
-changed: [192.168.58.117]
-changed: [192.168.58.114]
-changed: [192.168.58.116]
-changed: [192.168.58.119]
+changed: [192.168.1.117]
+changed: [192.168.2.114]
+changed: [192.168.3.116]
+changed: [192.168.4.119]
 
 TASK [debug] ******************************************************************************************************************
-skipping: [192.168.58.114]
-ok: [192.168.58.117] => {
+skipping: [192.168.1.114]
+ok: [192.168.1.117] => {
     "msg": "下载公钥文件"
 }
-ok: [192.168.58.116] => {
+ok: [192.168.2.116] => {
     "msg": "下载公钥文件"
 }
-ok: [192.168.58.119] => {
+ok: [192.168.3.119] => {
     "msg": "下载公钥文件"
 }
 
 TASK [获取公钥文件] ********************************************************************
-changed: [192.168.58.117]
-changed: [192.168.58.116]
-changed: [192.168.58.114]
-changed: [192.168.58.119]
+changed: [192.168.1.117]
+changed: [192.168.2.116]
+changed: [192.168.4.114]
+changed: [192.168.3.119]
 
 PLAY RECAP ********************************************************************************************************************
-192.168.58.114             : ok=9    changed=5    unreachable=0    failed=0   
-192.168.58.116             : ok=9    changed=5    unreachable=0    failed=0   
-192.168.58.117             : ok=9    changed=5    unreachable=0    failed=0   
-192.168.58.119             : ok=9    changed=5    unreachable=0    failed=0   
+192.168.1.114             : ok=9    changed=5    unreachable=0    failed=0   
+192.168.2.116             : ok=9    changed=5    unreachable=0    failed=0   
+192.168.3.117             : ok=9    changed=5    unreachable=0    failed=0   
+192.168.4.119             : ok=9    changed=5    unreachable=0    failed=0   
 ```
 
 
@@ -228,15 +228,15 @@ PLAY RECAP *********************************************************************
 ```
 ---
 安装etcd
-[root@k8s-master-1 tmp]#sh k8s-install.sh  install_etcd 192.168.58.114 192.168.58.117 192.168.58.116 192.168.58.119
+[root@k8s-master-1 tmp]#sh k8s-install.sh  install_etcd 192.168.1.114 192.168.2.117 192.168.3.116 192.168.4.119
 
 安装docker服务
-[root@k8s-master-1 tmp]#sh k8s-install.sh  install_docker 192.168.58.114 192.168.58.117 192.168.58.116 192.168.58.119
+[root@k8s-master-1 tmp]#sh k8s-install.sh  install_docker 192.168.1.114 192.168.2.117 192.168.3.116 192.168.4.119
 
 安装kube-admin组件
-[root@k8s-master-1 tmp]#sh k8s-install.sh  install_kube 192.168.58.114 192.168.58.117 192.168.58.116 192.168.58.119
+[root@k8s-master-1 tmp]#sh k8s-install.sh  install_kube 192.168.1.114 192.168.2.117 192.168.3.116 192.168.5.119
 
 初始化kube-admin 
-[root@k8s-master-1 tmp]# sh k8s-install.sh init_kubernetes 192.168.58.114 192.168.58.117 192.168.58.116 192.168.58.119
+[root@k8s-master-1 tmp]# sh k8s-install.sh init_kubernetes 192.168.1.114 192.168.2.117 192.168.3.116 192.168.4.119
 
 ```
