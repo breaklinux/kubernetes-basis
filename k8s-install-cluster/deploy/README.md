@@ -3,10 +3,10 @@
 | 主机IP规划	 | 主机名规划	 | 用途 
 | ------ | ------ |------ |
 | 192.168.1.12	 | ansible-matser	 |ansible运维控制机
-| 192.168.2.114 | k8s-master-1-58.114    |k8s-master01 控制节点-1 
-| 192.168.3.117 | k8s-master-2-58.117	 |k8s-master01 控制节点-2
-| 192.168.4.116 | k8s-master-3-58.116	 |k8s-master01 控制节点-3
-| 192.168.5.119 | k8s-node-1-58.119     |k8s-node01 工作节点-1   
+| 192.168.2.114 | k8s-master-1.114    |k8s-master01 控制节点-1 
+| 192.168.3.117 | k8s-master-2.117	 |k8s-master01 控制节点-2
+| 192.168.4.116 | k8s-master-3.116	 |k8s-master01 控制节点-3
+| 192.168.5.119 | k8s-node-1-4.119     |k8s-node01 工作节点-1   
 
 
 | 主机IP规划	 | 主机名规划	 | 角色  | 用途 
@@ -25,10 +25,10 @@
 ```
 cat k8s-init-inventory.txt
 [k8s-dev]
- 192.168.1.114 host_name=k8s-master-1-58.114  sshkey_role=ras 
- 192.168.2.117 host_name=k8s-master-2-58.117  sshkey_role=pub 
- 192.168.3.116 host_name=k8s-master-3-58.116  sshkey_role=pub 
- 192.168.4.119 host_name=k8s-node-1-58.119   sshkey_role=pub 
+ 192.168.1.114 host_name=k8s-master-1.114  sshkey_role=ras 
+ 192.168.2.117 host_name=k8s-master-2.117  sshkey_role=pub 
+ 192.168.3.116 host_name=k8s-master-3.116  sshkey_role=pub 
+ 192.168.4.119 host_name=k8s-node-1-4.119   sshkey_role=pub 
 ```
 
 **3.编写初始化主机名称playbook**
