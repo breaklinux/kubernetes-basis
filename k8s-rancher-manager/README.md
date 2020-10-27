@@ -8,7 +8,7 @@ docker run -d --name xiaolige-rancher --restart=unless-stopped -p 80:80 -p 443:4
 ```
 **3.集群接入参考命令**
 ```
-curl –insecure -sfL https://192.168.47.108/v3/import/xs54n2hrcwtdbll76b8tjppp7qprxwbjgqkf5rxg5dz2bssdsdddddd.yaml | kubectl apply -f -
+curl –insecure -sfL https://192.168.4.108/v3/import/xs54n2hrcwtdbll76b8tjppp7qprxwbjgqkf5rxg5dz2bssdsdddddd.yaml | kubectl apply -f -
 clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created
 clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created
 namespace/cattle-system unchanged
