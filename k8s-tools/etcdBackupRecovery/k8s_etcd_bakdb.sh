@@ -8,12 +8,12 @@ fi
 DATA=`date +%y%m%d`
 if [ $1 = "dev" ]
 then 
-   ENDPOINTS='https://192.168.58.5:2379,https://192.168.58.6:2379,https://192.168.58.10:2379'
+   ENDPOINTS='https://192.168.5.5:2379,https://192.168.5.6:2379,https://192.168.5.10:2379'
    timestamp=`date +%Y%m%d%H%M%S`
    env="dev"
 elif [ $1 = "test" ]
 then
-   ENDPOINTS='https://192.168.60.1:2379,https://192.168.60.1.2:2379,https://192.168.60.1.3:2379'
+   ENDPOINTS='https://192.168.6.1:2379,https://192.168.6.2:2379,https://192.168.6.3:2379'
    timestamp=`date +%Y%m%d%H%M%S`
    env="test"
 else
