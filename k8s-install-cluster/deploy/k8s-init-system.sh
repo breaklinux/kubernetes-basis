@@ -18,8 +18,7 @@ list_kernel() {
 
 install_kernel() {
     echo -e "\033[32m 安装kernel-ml 5.6.11-1.版本... \033[0m"
-    #yum -y --enablerepo=elrepo-kernel install kernel-ml 
-    rpm -Uvh http://download.pkg.chj.cloud/kernel-ml-5.6.11-1.el7.elrepo.x86_64.rpm
+    yum -y --enablerepo=elrepo-kernel install kernel-ml 
 }
 #查看可用内核
 list_kernels() {
