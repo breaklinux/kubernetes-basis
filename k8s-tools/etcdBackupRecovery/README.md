@@ -17,13 +17,13 @@ mv /var/lib/etcd /var/lib/etcd_bak_20190523
 
 ```
 还原192.168.1.3节点
-ETCDCTL_API=3 etcdctl --name=k8stest-master-1.chj.cloud --endpoints="https://192.168.1.3:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.3:2380 --initial-cluster=k8stest-master-1.chj.cloud=https://192.168.1.3:2380,k8stest-master-2.chj.cloud=https://192.168.1.2:2380,k8stest-master-3.chj.cloud=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
+ETCDCTL_API=3 etcdctl --name=k8stest-master-1.com --endpoints="https://192.168.1.3:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.3:2380 --initial-cluster=k8stest-master-1.chj.cloud=https://192.168.1.3:2380,k8stest-master-2.com=https://192.168.1.2:2380,k8stest-master-3.com=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
 
 还原192.168.1.2节点
-ETCDCTL_API=3 etcdctl --name=k8stest-master-2.chj.cloud --endpoints="https://192.168.1.2:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.2:2380 --initial-cluster=k8stest-master-1.chj.cloud=https://192.168.1.3:2380,k8stest-master-2.chj.cloud=https://192.168.1.2:2380,k8stest-master-3.chj.cloud=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
+ETCDCTL_API=3 etcdctl --name=k8stest-master-2.chj.cloud --endpoints="https://192.168.1.2:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.2:2380 --initial-cluster=k8stest-master-1.chj.cloud=https://192.168.1.3:2380,k8stest-master-2.com=https://192.168.1.2:2380,k8stest-master-3.com=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
 
 还原192.168.1.1节点
-ETCDCTL_API=3 etcdctl --name=k8stest-master-3.chj.cloud --endpoints="https://192.168.1.1:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.1:2380 --initial-cluster=k8stest-master-1.chj.cloud=https://192.168.1.3:2380,k8stest-master-2.chj.cloud=https://192.168.1.2:2380,k8stest-master-3.chj.cloud=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
+ETCDCTL_API=3 etcdctl --name=k8stest-master-3.chj.cloud --endpoints="https://192.168.1.1:2379" --cert=/etc/etcd/ssl/etcd.pem  --key=/etc/etcd/ssl/etcd-key.pem  --cacert=/etc/etcd/ssl/ca.pem --initial-cluster-token=etcd-cluster-0 --initial-advertise-peer-urls=https://192.168.1.1:2380 --initial-cluster=k8stest-master-1.com=https://192.168.1.3:2380,k8stest-master-2.com=https://192.168.1.2:2380,k8stest-master-3.com=https://192.168.1.1:2380 --data-dir=/var/lib/etcd snapshot restore /chj/backup/etcd3/snapshot.db
 ```
 ***三、常用命令***
 ```
