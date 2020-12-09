@@ -144,6 +144,15 @@ openssl x509  -noout -text -in ./k8s-developer-devops-python.crt
  
 ## 切换到用户k8s-developer-dev,登录k8s,可以看到用户k8s-developer-dev没有管理器权限
 kubectl config use-context k8s-developer-devops-python@kubernetesqu
+##授权集群token方式访问
+kubens default
+
+SERVICE_ACCOUNT="k8s-developer-devops-python"
+
+SECRET=$(kubectl get serviceaccount ${SERVICE_ACCOUNT} -o json | jq -Mr '.secrets[].name | select(contains("token"))')
+
+TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -D)
+echo $TOKEN
 ```
 
 
