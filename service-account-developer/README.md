@@ -153,7 +153,11 @@ SECRET=$(kubectl get serviceaccount ${SERVICE_ACCOUNT} -o json | jq -Mr '.secret
 
 TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -D)
 echo $TOKEN
+
+#客户端命令测试
+curl -s https://192.168.1.1:6443/api/v1  --header "Authorization: Bearer $TOKEN" --cacert ~/Downloads/Desktop/ca.crt
 ```
+
 
 
 **8.ServiceAccount 用户的权限规划适用用于整个集群.**
