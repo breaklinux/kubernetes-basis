@@ -19,3 +19,9 @@ ingress-nginx-controller-f8d756996-r6ld8   1/1     Running     0          1s
 ingress-nginx-controller-f8d756996-w8m68   1/1     Running     0          1s 
 ```
 
+**4.tls注入**
+```
+for ns in `kubectl get namespaces|grep -v "NAME"|awk '{print $1}'`;do kubectl create secret tls letsencrypt-xiaolige --key ./xiaolige.site/privkey.pem  --cert ./xiaolige.site/fullchain.pem -n $ns; done
+```
+#查看证书内容范围；
+echo $(kubectl get secret letsencrypt-xiaolige  -n test -o jsonpath='{.data.tls\.crt}') | base64 -d | openssl x509 -text -noout
