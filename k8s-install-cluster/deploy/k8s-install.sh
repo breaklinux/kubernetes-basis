@@ -467,10 +467,12 @@ apiServer:
   - k8s-master-2.k8s.cloud
   - k8s-master-3.k8s.cloud
   timeoutForControlPlane: 4m0s
+  controlPlaneEndpoint: k8s-haproxy.k8s.cloud:6443
+  extraArgs:
+    authorization-mode: Node,RBAC
 apiVersion: kubeadm.k8s.io/v1beta2
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
-controlPlaneEndpoint: k8s-haproxy.k8s.cloud:6443
 controllerManager: {}
 dns:
   type: CoreDNS
@@ -483,7 +485,7 @@ etcd:
     - https://$3:2379
     - https://$3:2379
     keyFile: /etc/etcd/ssl/etcd-key.pem
-imageRepository: k8s.gcr.io
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
 kind: ClusterConfiguration
 kubernetesVersion: v1.16.8
 networking:
@@ -491,7 +493,10 @@ networking:
   serviceSubnet: 10.31.48.0/22
   podSubnet: 10.31.32.0/19
 scheduler: {}
-
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: ipvs
 EOF
 
     #kubeadm config migrate --old-config config.yaml --new-config new.yaml
