@@ -130,7 +130,7 @@ Documentation=https://github.com/coreos
 [Service]
 Type=notify
 WorkingDirectory=/var/lib/etcd/
-ExecStart=/usr/bin/etcd   --name k8s-master-1.k8s.com   --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$2:2380   --listen-peer-urls https://$2:2380   --listen-client-urls https://$2:2379,http://127.0.0.1:2379   --advertise-client-urls https://$2:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
+ExecStart=/usr/bin/etcd   --name k8s-master-1.k8s.com  --peer-client-cert-auth --client-cert-auth --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$2:2380   --listen-peer-urls https://$2:2380   --listen-client-urls https://$2:2379,http://127.0.0.1:2379   --advertise-client-urls https://$2:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65536
@@ -150,7 +150,7 @@ Documentation=https://github.com/coreos
 [Service]
 Type=notify
 WorkingDirectory=/var/lib/etcd/
-ExecStart=/usr/bin/etcd   --name k8s-master-2.k8s.com   --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$3:2380   --listen-peer-urls https://$3:2380   --listen-client-urls https://$3:2379,http://127.0.0.1:2379   --advertise-client-urls https://$3:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
+ExecStart=/usr/bin/etcd   --name k8s-master-2.k8s.com   --peer-client-cert-auth --client-cert-auth --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$3:2380   --listen-peer-urls https://$3:2380   --listen-client-urls https://$3:2379,http://127.0.0.1:2379   --advertise-client-urls https://$3:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65536
@@ -170,7 +170,7 @@ Documentation=https://github.com/coreos
 [Service]
 Type=notify
 WorkingDirectory=/var/lib/etcd/
-ExecStart=/usr/bin/etcd   --name k8s-master-3.k8s.com   --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$4:2380   --listen-peer-urls https://$4:2380   --listen-client-urls https://$4:2379,http://127.0.0.1:2379   --advertise-client-urls https://$4:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
+ExecStart=/usr/bin/etcd   --name k8s-master-3.k8s.com  --peer-client-cert-auth --client-cert-auth  --cert-file=/etc/etcd/ssl/etcd.pem   --key-file=/etc/etcd/ssl/etcd-key.pem   --peer-cert-file=/etc/etcd/ssl/etcd.pem   --peer-key-file=/etc/etcd/ssl/etcd-key.pem   --trusted-ca-file=/etc/etcd/ssl/ca.pem   --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem   --initial-advertise-peer-urls https://$4:2380   --listen-peer-urls https://$4:2380   --listen-client-urls https://$4:2379,http://127.0.0.1:2379   --advertise-client-urls https://$4:2379   --initial-cluster-token etcd-cluster-0   --initial-cluster k8s-master-1.k8s.com=https://$2:2380,k8s-master-2.k8s.com=https://$3:2380,k8s-master-3.k8s.com=https://$4:2380   --initial-cluster-state new   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65536
