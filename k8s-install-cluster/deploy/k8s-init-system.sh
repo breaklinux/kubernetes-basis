@@ -26,10 +26,24 @@ list_kernels() {
     awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
 }
 
+ipvs_init(){
+yum -y install ipset ipvsadm 
+}
 
-
-
-
+configIpvsModel(){
+mkdir -p /root/ipvs/
+#注意:内核版本在4.19.1--5.x版本内核内核中 nf_conntrack_ipv4 已经修改为nf_conntrack模块
+cat > /root/ipvs/ipvs.sh <<EOF
+modprobe  ip_vs
+modprobe  ip_vs_rr
+modprobe  ip_vs_wrr
+modprobe  ip_vs_sh
+modprobe  nf_conntrack 
+#modprobe  nf_conntrack_ipv4
+EOF
+/bin/bash  /root/ipvs/ipvs.sh 
+echo "/bin/bash /root/ipvs/ipvs.sh" >>/etc/rc.local
+}
 
 #设置内核启动
 set_grub() {
@@ -148,6 +162,8 @@ EOF
 main() {
     update_yum
     change_repo
+    ipvs_init
+    configIpvsModel
     list_kernel
     install_kernel
     list_kernels
