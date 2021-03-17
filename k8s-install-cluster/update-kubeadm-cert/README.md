@@ -19,6 +19,7 @@ Not After : Apr 22 04:09:07 2021 GMT
 ```
 
 ** 三、延长证书过期时间**
+```
 1.把update-kubeadm-cert.sh文件上传到master1、master2、master3节点
 update-kubeadm-cert.sh. 文件所在该目录下：
 拷贝到master1，master2，master3节点上
@@ -32,8 +33,6 @@ chmod +x update-kubeadm-cert.sh
 
 3）在master1节点查询Pod是否正常,能查询出数据说明证书签发完成
 kubectl  get pods -n kube-system
-
-```
 显示如下，能够看到pod信息，说明证书签发正常：
 [root@k8s-masterpki]# kubectl get pod -n kube-system -o wide
 NAME                                                 READY   STATUS    RESTARTS   AGE     IP              NODE                         NOMINATED NODE   READINESS GATES
