@@ -13,7 +13,7 @@ iptables -F
 }
 
 configDhcp(){
-yum install  dhcp-4.2.5-79* -y 
+yum install dhcp-4.2** -y 
 echo -e "033[dhcp 配置文件生成... \033[0m" 
 ip=$(hostname -i)
 if [ -n $ip ]
