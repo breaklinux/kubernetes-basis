@@ -193,14 +193,14 @@ Request Information:
 	query=
 	request_version=1.1
 	request_scheme=http
-	request_uri=http://echo-ip.breakliniux.com:8080/
+	request_uri=op-java-real-ip.breakliniux.com:8080/
 
 Request Headers:
 	accept=*/*
 	host=echo-ip.breakliniux.com
 	user-agent=curl/7.77.0
 	x-forwarded-for=192.168.1.4
-	x-forwarded-host=echo-ip.breakliniux.com
+	x-forwarded-host=op-java-real-ip.breakliniux.com
 	x-forwarded-port=80
 	x-forwarded-proto=http
 	x-forwarded-scheme=http
