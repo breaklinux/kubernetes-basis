@@ -538,6 +538,7 @@ spec:
         app.kubernetes.io/version: 1.4.0
       name: ingress-nginx-admission-create
     spec:
+      hostNetwork: true
       containers:
       - args:
         - create
@@ -585,6 +586,7 @@ spec:
         app.kubernetes.io/version: 1.4.0
       name: ingress-nginx-admission-patch
     spec:
+      hostNetwork: true
       containers:
       - args:
         - patch
