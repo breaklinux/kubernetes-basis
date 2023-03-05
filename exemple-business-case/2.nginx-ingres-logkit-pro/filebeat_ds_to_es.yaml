@@ -32,28 +32,6 @@ kind: ServiceAccount
 metadata:
   labels:
     app: filebeat
-  managedFields:
-  - apiVersion: v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:secrets:
-        .: {}
-        k:{"name":"filebeat-token-6ssld"}:
-          .: {}
-          f:name: {}
-    manager: kube-controller-manager
-  - apiVersion: v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:metadata:
-        f:annotations:
-          .: {}
-          f:kubectl.kubernetes.io/last-applied-configuration: {}
-        f:labels:
-          .: {}
-          f:app: {}
-    manager: kubectl-client-side-apply
-    operation: Update
   name: filebeat
   namespace: sys
 ---
@@ -82,34 +60,13 @@ data:
     setup.template.name: "py-app-logs-access"
     setup.template.pattern: "py-app-logs-access-*"  
     output.elasticsearch:
-      hosts: ["192.168.1.8:9200"]
+      hosts: ["10.0.0.166:9200"]
       index: "py-app-logs-access-%{+yyyy.MM.dd}"
  
 kind: ConfigMap
 metadata:
   labels:
     app: filebeat
-  managedFields:
-  - apiVersion: v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:data: {}
-      f:metadata:
-        f:annotations:
-          .: {}
-          f:kubectl.kubernetes.io/last-applied-configuration: {}
-        f:labels:
-          .: {}
-          f:app: {}
-    manager: kubectl-client-side-apply
-    operation: Update
-  - apiVersion: v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:data:
-        f:filebeat.yml: {}
-    manager: kubectl-edit
-    operation: Update
   name: filebeat-config
   namespace: sys
 ---
@@ -118,151 +75,6 @@ kind: DaemonSet
 metadata:
   labels:
     app: filebeat
-  managedFields:
-  - apiVersion: apps/v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:metadata:
-        f:annotations:
-          .: {}
-          f:deprecated.daemonset.template.generation: {}
-          f:kubectl.kubernetes.io/last-applied-configuration: {}
-        f:labels:
-          .: {}
-          f:app: {}
-      f:spec:
-        f:revisionHistoryLimit: {}
-        f:selector: {}
-        f:template:
-          f:metadata:
-            f:labels:
-              .: {}
-              f:app: {}
-          f:spec:
-            f:containers:
-              k:{"name":"filebeat"}:
-                .: {}
-                f:args: {}
-                f:env:
-                  .: {}
-                  k:{"name":"NODE_NAME"}:
-                    .: {}
-                    f:name: {}
-                    f:valueFrom:
-                      .: {}
-                      f:fieldRef:
-                        .: {}
-                        f:apiVersion: {}
-                        f:fieldPath: {}
-                f:image: {}
-                f:imagePullPolicy: {}
-                f:name: {}
-                f:resources:
-                  .: {}
-                  f:limits: {}
-                  f:requests:
-                    .: {}
-                    f:cpu: {}
-                    f:memory: {}
-                f:securityContext:
-                  .: {}
-                  f:runAsUser: {}
-                f:terminationMessagePath: {}
-                f:terminationMessagePolicy: {}
-                f:volumeMounts:
-                  .: {}
-                  k:{"mountPath":"/etc/filebeat.yml"}:
-                    .: {}
-                    f:mountPath: {}
-                    f:name: {}
-                    f:readOnly: {}
-                    f:subPath: {}
-                  k:{"mountPath":"/usr/share/filebeat/data"}:
-                    .: {}
-                    f:mountPath: {}
-                    f:name: {}
-                  k:{"mountPath":"/var/lib/docker/containers"}:
-                    .: {}
-                    f:mountPath: {}
-                    f:name: {}
-                    f:readOnly: {}
-                  k:{"mountPath":"/var/log"}:
-                    .: {}
-                    f:mountPath: {}
-                    f:name: {}
-                    f:readOnly: {}
-            f:dnsPolicy: {}
-            f:hostNetwork: {}
-            f:restartPolicy: {}
-            f:schedulerName: {}
-            f:securityContext: {}
-            f:serviceAccount: {}
-            f:serviceAccountName: {}
-            f:terminationGracePeriodSeconds: {}
-            f:volumes:
-              .: {}
-              k:{"name":"config"}:
-                .: {}
-                f:configMap:
-                  .: {}
-                  f:defaultMode: {}
-                  f:name: {}
-                f:name: {}
-              k:{"name":"data"}:
-                .: {}
-                f:hostPath:
-                  .: {}
-                  f:path: {}
-                  f:type: {}
-                f:name: {}
-              k:{"name":"varlibdockercontainers"}:
-                .: {}
-                f:hostPath:
-                  .: {}
-                  f:path: {}
-                  f:type: {}
-                f:name: {}
-              k:{"name":"varlog"}:
-                .: {}
-                f:hostPath:
-                  .: {}
-                  f:path: {}
-                  f:type: {}
-                f:name: {}
-        f:updateStrategy:
-          f:rollingUpdate:
-            .: {}
-            f:maxUnavailable: {}
-          f:type: {}
-    manager: kubectl-client-side-apply
-    operation: Update
-  - apiVersion: apps/v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:spec:
-        f:template:
-          f:spec:
-            f:containers:
-              k:{"name":"filebeat"}:
-                f:resources:
-                  f:limits:
-                    f:cpu: {}
-                    f:memory: {}
-    manager: kubectl-edit
-    operation: Update
-  - apiVersion: apps/v1
-    fieldsType: FieldsV1
-    fieldsV1:
-      f:status:
-        f:currentNumberScheduled: {}
-        f:desiredNumberScheduled: {}
-        f:numberAvailable: {}
-        f:numberMisscheduled: {}
-        f:numberReady: {}
-        f:observedGeneration: {}
-        f:updatedNumberScheduled: {}
-    manager: kube-controller-manager
-    operation: Update
   name: filebeat
   namespace: sys
 spec:
@@ -271,7 +83,6 @@ spec:
       app: filebeat
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: filebeat
     spec:
@@ -313,11 +124,9 @@ spec:
         - mountPath: /var/log
           name: varlog
           readOnly: true
-      dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: {}
       serviceAccount: filebeat
       serviceAccountName: filebeat
       terminationGracePeriodSeconds: 30
@@ -338,8 +147,3 @@ spec:
           path: /var/lib/filebeat
           type: DirectoryOrCreate
         name: data
-  updateStrategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 1
-    type: RollingUpdate
