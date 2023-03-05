@@ -1,0 +1,18 @@
+{
+  "data-root": "/var/lib/docker",
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "registry-mirrors": [
+    "https://docker.mirrors.ustc.edu.cn",
+    "http://hub-mirror.c.163.com"
+  ], 
+  "insecure-registries": ["127.0.0.1/8","10.0.0.188","harbor.k8s.com"],
+  "max-concurrent-downloads": 10,
+  "live-restore": true,
+  "log-driver": "json-file",
+  "log-level": "warn",
+  "log-opts": {
+    "max-size": "50m",
+    "max-file": "1"
+    },
+  "storage-driver": "overlay2"
+}
