@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: prometheus
+  name: prometheus
+  namespace: monitoring
+  annotations:
+    reloader.stakater.com/auto: "true"    #configmap热更新
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus   #serviceaccount，rbac认证
+      securityContext:
+        runAsUser: 0
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.20.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /prometheus
+              name: prometheus-data-volume
+            - mountPath: /etc/prometheus/prometheus.yml
+              name: prometheus-conf-volume
+              subPath: prometheus.yml
+            - mountPath: /etc/prometheus/rules/
+              name: prometheus-rules-volume
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+      volumes:
+        - name: prometheus-data-volume
+          persistentVolumeClaim:
+            claimName: prometheus-data       #引用pvc
+        - name: prometheus-conf-volume
+          configMap:
+            name: prometheus-conf           #引用configmap
+        - name: prometheus-rules-volume
+          configMap:
+            name: prometheus-rules           #引用configmap
+

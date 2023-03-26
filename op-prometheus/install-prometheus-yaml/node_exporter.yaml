@@ -1,0 +1,44 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata: 
+  labels:
+    app: node-exporter
+  name: node-exporter
+  namespace: monitoring  
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: node-exporter
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+    spec:
+      containers:
+        - name: node-exporter
+          image: prom/node-exporter:v0.16.0
+          ports:
+            - containerPort: 9100
+              protocol: TCP
+              name:	http
+      hostNetwork: true # 获得Node的物理指标信息
+      hostPID: true  # 获得Node的物理指标信息
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: node-exporter
+  name: node-exporter-service
+  namespace: monitoring 
+spec:
+  ports:
+    - name: http
+      port: 9100
+      nodePort: 31672
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: node-exporter

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap           #定义rules的配置文件
+metadata:
+  name: prometheus-rules
+  namespace: monitoring 
+  labels:
+   app: prometheus
+data:
+  # 通用角色
+  general.rules: |
+    groups:
+    - name: k8s
+      rules:
+      - alert: pod-status
+        annotations:
+          message: pod is down pod-status !
+        expr: |
+          kube_pod_container_status_running != 1
+        for: 1m
+        labels:
+          severity: warning

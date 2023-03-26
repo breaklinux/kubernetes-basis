@@ -401,6 +401,7 @@ spec:
               cpu: 100m
               memory: 90Mi
       serviceAccountName: ingress-nginx
+      hostNetwork: true
       terminationGracePeriodSeconds: 300
       volumes:
         - name: webhook-cert
