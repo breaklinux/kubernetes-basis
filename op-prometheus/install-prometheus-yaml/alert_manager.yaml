@@ -20,10 +20,10 @@ data:
     receivers:
     - name: 'dingding.webhook1'
       webhook_configs:
-      - url: 'http://101.43.208.54:8060/dingtalk/webhook1/send'
+      - url: 'http://1.1.1.1:8060/dingtalk/webhook1/send'
     - name: 'dingding.webhook.all'
       webhook_configs:
-      - url: 'http://101.43.208.54:8060/dingtalk/webhook_mention_all/send'
+      - url: 'http://1.1.1.1:8060/dingtalk/webhook_mention_all/send'
         send_resolved: true
 kind: ConfigMap
 metadata:
