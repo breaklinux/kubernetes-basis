@@ -25,4 +25,14 @@ for ns in `kubectl get namespaces|grep -v "NAME"|awk '{print $1}'`;do kubectl cr
 
 #查看证书内容范围；
 echo $(kubectl get secret letsencrypt-xiaolige  -n test -o jsonpath='{.data.tls\.crt}') | base64 -d | openssl x509 -text -noout
+```         
+
+**5.helm 方式进行部署ingress-nginx**
+```
+helm 安装 https://github.com/helm/helm/releases 
+kubectl create namespace ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+kubectl get pods -n ingress-nginx
 ```
