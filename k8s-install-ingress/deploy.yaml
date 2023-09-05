@@ -400,6 +400,23 @@ spec:
             requests:
               cpu: 100m
               memory: 90Mi
+      initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            sysctl -w net.core.somaxconn=65535
+            sysctl -w net.ipv4.ip_local_port_range="1024 65535"
+            sysctl -w net.ipv4.tcp_tw_reuse=1
+            sysctl -w fs.file-max=1048576
+          image: busybox
+          imagePullPolicy: Always
+          name: setsysctl
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File        
       serviceAccountName: ingress-nginx
       hostNetwork: true
       terminationGracePeriodSeconds: 300
