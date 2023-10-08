@@ -151,15 +151,48 @@ SERVICE_ACCOUNT="k8s-developer-devops-python"
 
 SECRET=$(kubectl get serviceaccount ${SERVICE_ACCOUNT} -o json | jq -Mr '.secrets[].name | select(contains("token"))')
 
-TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -D)
+TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -D)  #macos 系统使用 base64 -D
+TOKEN=$(kubectl get secret ${SECRET} -o json | jq -Mr '.data.token' | base64 -d)  #linux 系统使用 base64 -d
+
 echo $TOKEN
 
 #客户端命令测试
 curl -s https://192.168.1.1:6443/api/v1  --header "Authorization: Bearer $TOKEN" --cacert ~/Downloads/Desktop/ca.crt
 ```
 
-
-
+##token方式kubectl配置文件
+```
+apiVersion: v1
+kind: Config
+clusters:
+- name: cluster1
+  cluster:
+    server: https://cluster1-api-server-url
+    certificate-authority-data: <base64-encoded-ca-certificate1>
+- name: cluster2
+  cluster:
+    server: https://cluster2-api-server-url
+    certificate-authority-data: <base64-encoded-ca-certificate2>
+users:
+- name: user1
+  user:
+    token: <user-token1>
+- name: user2
+  user:
+    token: <user-token2>
+contexts:
+- name: context1
+  context:
+    cluster: cluster1
+    user: user1
+    namespace: namespace1
+- name: context2
+  context:
+    cluster: cluster2
+    user: user2
+    namespace: namespace2
+current-context: context1
+```
 **8.ServiceAccount 用户的权限规划适用用于整个集群.**
 
   serviceAccount/name   |User/name |权限|用途
